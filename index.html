@@ -91,14 +91,17 @@ margin-left:250px;
 <br><br>
  
 <button style="margin-left:250px;" onclick="
-alert(
-'Trader : ' + document.getElementById('trader').value +
-'\nHRC : ' + document.getElementById('hrc').value +
-'\nCRC : ' + document.getElementById('crc').value +
-'\nWRIC : ' + document.getElementById('wric').value +
-'\nBillets : ' + document.getElementById('billets').value +
-'\nRebars : ' + document.getElementById('rebars').value +
-'\nScrap : ' + document.getElementById('scrap').value
-)">
+document.getElementById('result').innerHTML =
+'<h2>Prévisions enregistrées</h2>' +
+'<p><b>Trader :</b> ' + document.getElementById('trader').value + '</p>' +
+'<p><b>HRC :</b> ' + document.getElementById('hrc').value + '</p>' +
+'<p><b>CRC :</b> ' + document.getElementById('crc').value + '</p>' +
+'<p><b>WRIC :</b> ' + document.getElementById('wric').value + '</p>' +
+'<p><b>Billets :</b> ' + document.getElementById('billets').value + '</p>' +
+'<p><b>Rebars :</b> ' + document.getElementById('rebars').value + '</p>' +
+'<p><b>Scrap :</b> ' + document.getElementById('scrap').value + '</p>';
+">
 VALIDER
 </button>
+ 
+<div id="result"></div>
