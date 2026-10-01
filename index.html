@@ -91,7 +91,16 @@ margin-left:250px;
 <br><br>
  
 <button style="margin-left:250px;" onclick="
-document.getElementById('result').innerHTML =
+document.getElementById('predictionsTable').innerHTML +=
+'<tr>' +
+'<td>' + document.getElementById('trader').value + '</td>' +
+'<td>' + document.getElementById('hrc').value + '</td>' +
+'<td>' + document.getElementById('crc').value + '</td>' +
+'<td>' + document.getElementById('wric').value + '</td>' +
+'<td>' + document.getElementById('billets').value + '</td>' +
+'<td>' + document.getElementById('rebars').value + '</td>' +
+'<td>' + document.getElementById('scrap').value + '</td>' +
+'</tr>';
 '<h2>Prévisions enregistrées</h2>' +
 '<p><b>Trader :</b> ' + document.getElementById('trader').value + '</p>' +
 '<p><b>HRC :</b> ' + document.getElementById('hrc').value + '</p>' +
