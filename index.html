@@ -3,463 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SteelForce Market Championship</title>
-
+ 
+<title>SteelForce Championship V3</title>
+ 
 <style>
-
+ 
 body{
-    font-family: Arial, sans-serif;
-    max-width:1200px;
-    margin:auto;
-    padding:20px;
-    background:#f4f6f8;
+font-family:Arial,sans-serif;
+max-width:1200px;
+margin:auto;
+padding:20px;
+background:#f4f6f8;
 }
-
+ 
 h1{
-    text-align:center;
-    color:#0b5cab;
-    margin-bottom:30px;
+text-align:center;
+color:#0b5cab;
 }
-
+ 
 .menu{
-    text-align:center;
-    margin-bottom:30px;
+text-align:center;
+margin-bottom:25px;
 }
-
+ 
 .menu button{
-    background:#0b5cab;
-    color:white;
-    border:none;
-    padding:12px 20px;
-    margin:5px;
-    border-radius:6px;
-    cursor:pointer;
+background:#0b5cab;
+color:white;
+border:none;
+padding:10px 20px;
+margin:5px;
+border-radius:5px;
+cursor:pointer;
 }
-
-.menu button:hover{
-    background:#083d75;
-}
-
+ 
 .section{
-    background:white;
-    padding:25px;
-    border-radius:10px;
-    box-shadow:0 2px 12px rgba(0,0,0,0.12);
+background:white;
+padding:20px;
+border-radius:10px;
 }
-
-label{
-    display:block;
-    margin-top:15px;
-    font-weight:bold;
-}
-
-select,
-input{
-    width:280px;
-    padding:8px;
-    margin-top:5px;
-}
-
-.mainButton{
-    display:block;
-    margin:30px auto;
-    padding:14px 35px;
-    background:#0b5cab;
-    color:white;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-}
-
-.exportButton{
-    margin-bottom:15px;
-    background:#27ae60;
-    color:white;
-    border:none;
-    padding:10px 15px;
-    border-radius:6px;
-    cursor:pointer;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
-}
-
-th{
-    background:#0b5cab;
-    color:white;
-}
-
-th,
-td{
-    border:1px solid #ddd;
-    padding:8px;
-    text-align:center;
-}
-
-tr:nth-child(even){
-    background:#f6f6f6;
-}
-
-.notice{
-    background:#eef5ff;
-    padding:15px;
-    border-radius:8px;
-}
-
+ 
 </style>
+ 
 </head>
-
+ 
 <body>
-
-<h1>🏆 STEELFORCE MARKET CHAMPIONSHIP</h1>
-
+ 
+<h1>🏆 STEELFORCE CHAMPIONSHIP V3</h1>
+ 
 <div class="menu">
-    <button onclick="showPredictions()">Prévisions</button>
-    <button onclick="showHistory()">Historique</button>
-    <button onclick="showMarketData()">Market Data</button>
-    <button onclick="showLeaderboard()">Leaderboard</button>
+<button>Prévisions</button>
+<button>Market Data</button>
+<button>Résultats</button>
+<button>Leaderboard</button>
 </div>
-
-<!-- PREVISIONS -->
-
-<div id="predictionSection" class="section">
-
-<label>Trader</label>
-<select id="trader">
-<option>Basile</option>
-<option>Olivier</option>
-<option>Jean</option>
-<option>David</option>
-<option>Jennifer</option>
-<option>Burcu</option>
-<option>Diego</option>
-<option>Patrick</option>
-</select>
-
-<label>HRC China FOB</label>
-<select id="hrc">
-<option>UP</option>
-<option>FLAT</option>
-<option>DOWN</option>
-</select>
-
-<label>CRC CNY</label>
-<select id="crc">
-<option>UP</option>
-<option>FLAT</option>
-<option>DOWN</option>
-</select>
-
-<label>WRIC China FOB</label>
-<select id="wric">
-<option>UP</option>
-<option>FLAT</option>
-<option>DOWN</option>
-</select>
-
-<label>Billets China FOB</label>
-<select id="billets">
-<option>UP</option>
-<option>FLAT</option>
-<option>DOWN</option>
-</select>
-
-<label>Rebars TK</label>
-<select id="rebars">
-<option>UP</option>
-<option>FLAT</option>
-<option>DOWN</option>
-</select>
-
-<label>Scrap TK CFR</label>
-<select id="scrap">
-<option>UP</option>
-<option>FLAT</option>
-<option>DOWN</option>
-</select>
-
-<button class="mainButton" onclick="savePrediction()">
-VALIDER LES PRÉVISIONS
-</button>
-
+ 
+<div class="section">
+ 
+<h2>Version V3</h2>
+ 
+<p>
+Moteur JSON en cours de construction.
+</p>
+ 
 </div>
-
-<!-- HISTORIQUE -->
-
-<div id="historySection" class="section" style="display:none;">
-
-<h2>📋 Historique des prévisions</h2>
-
-<button class="exportButton"
-onclick="exportPredictionsCSV()">
-Exporter CSV
-</button>
-
-<table>
-<thead>
-<tr>
-<th>Date</th>
-<th>Trader</th>
-<th>HRC</th>
-<th>CRC</th>
-<th>WRIC</th>
-<th>Billets</th>
-<th>Rebars</th>
-<th>Scrap</th>
-</tr>
-</thead>
-
-<tbody id="predictionsTable">
-</tbody>
-
-</table>
-
-</div>
-
-<!-- MARKET DATA -->
-
-<div id="marketDataSection" class="section" style="display:none;">
-
-<h2>📈 Market Data</h2>
-
-<label>Date</label>
-<input type="date" id="marketDate">
-
-<label>HRC China FOB</label>
-<input type="number" id="marketHRC">
-
-<label>CRC CNY</label>
-<input type="number" id="marketCRC">
-
-<label>WRIC China FOB</label>
-<input type="number" id="marketWRIC">
-
-<label>Billets China FOB</label>
-<input type="number" id="marketBillets">
-
-<label>Rebars TK</label>
-<input type="number" id="marketRebars">
-
-<label>Scrap TK CFR</label>
-<input type="number" id="marketScrap">
-
-<button class="mainButton"
-onclick="saveMarketData()">
-SAUVEGARDER LES PRIX
-</button>
-
-<h2>📊 Historique Market Data</h2>
-
-<button class="exportButton"
-onclick="exportMarketCSV()">
-Exporter CSV
-</button>
-
-<table>
-
-<thead>
-<tr>
-<th>Date</th>
-<th>HRC</th>
-<th>CRC</th>
-<th>WRIC</th>
-<th>Billets</th>
-<th>Rebars</th>
-<th>Scrap</th>
-</tr>
-</thead>
-
-<tbody id="marketTable">
-</tbody>
-
-</table>
-
-</div>
-
-<!-- LEADERBOARD -->
-
-<div id="leaderboardSection" class="section" style="display:none;">
-
-<h2>🏆 Leaderboard</h2>
-
-<div class="notice">
-La version V2 prépare les données.
-
-La V3 calculera automatiquement :
-<ul>
-<li>UP / DOWN / FLAT</li>
-<li>Tolérance ±3</li>
-<li>Score automatique</li>
-<li>Classement</li>
-<li>Hit ratio</li>
-<li>Champion mensuel</li>
-</ul>
-</div>
-
-</div>
-
+ 
 <script>
-
-document.getElementById("predictionsTable").innerHTML =
-localStorage.getItem("predictionsTable") || "";
-
-document.getElementById("marketTable").innerHTML =
-localStorage.getItem("marketTable") || "";
-
-function hideAll(){
-
-document.getElementById("predictionSection").style.display="none";
-document.getElementById("historySection").style.display="none";
-document.getElementById("marketDataSection").style.display="none";
-document.getElementById("leaderboardSection").style.display="none";
-
-}
-
-function showPredictions(){
-
-hideAll();
-document.getElementById("predictionSection").style.display="block";
-
-}
-
-function showHistory(){
-
-hideAll();
-document.getElementById("historySection").style.display="block";
-
-}
-
-function showMarketData(){
-
-hideAll();
-document.getElementById("marketDataSection").style.display="block";
-
-}
-
-function showLeaderboard(){
-
-hideAll();
-document.getElementById("leaderboardSection").style.display="block";
-
-}
-
-function savePrediction(){
-
-document.getElementById("predictionsTable").innerHTML +=
-'<tr>' +
-'<td>' + new Date().toLocaleDateString() + '</td>' +
-'<td>' + document.getElementById('trader').value + '</td>' +
-'<td>' + document.getElementById('hrc').value + '</td>' +
-'<td>' + document.getElementById('crc').value + '</td>' +
-'<td>' + document.getElementById('wric').value + '</td>' +
-'<td>' + document.getElementById('billets').value + '</td>' +
-'<td>' + document.getElementById('rebars').value + '</td>' +
-'<td>' + document.getElementById('scrap').value + '</td>' +
-'</tr>';
-
-localStorage.setItem(
-"predictionsTable",
-document.getElementById("predictionsTable").innerHTML
+ 
+let predictions = JSON.parse(
+localStorage.getItem("predictionsV3")
+|| "[]"
 );
-
-alert("Prévisions enregistrées");
-
-}
-
-function saveMarketData(){
-
-document.getElementById("marketTable").innerHTML +=
-'<tr>' +
-'<td>' + document.getElementById('marketDate').value + '</td>' +
-'<td>' + document.getElementById('marketHRC').value + '</td>' +
-'<td>' + document.getElementById('marketCRC').value + '</td>' +
-'<td>' + document.getElementById('marketWRIC').value + '</td>' +
-'<td>' + document.getElementById('marketBillets').value + '</td>' +
-'<td>' + document.getElementById('marketRebars').value + '</td>' +
-'<td>' + document.getElementById('marketScrap').value + '</td>' +
-'</tr>';
-
-localStorage.setItem(
-"marketTable",
-document.getElementById("marketTable").innerHTML
+ 
+let marketData = JSON.parse(
+localStorage.getItem("marketDataV3")
+|| "[]"
 );
-
-alert("Prix enregistrés");
-
-}
-
-function exportPredictionsCSV(){
-
-let csv =
-"Date,Trader,HRC,CRC,WRIC,Billets,Rebars,Scrap\n";
-
-document.querySelectorAll("#predictionsTable tr")
-.forEach(row => {
-
-let values=[];
-
-row.querySelectorAll("td")
-.forEach(td => {
-
-values.push(td.innerText);
-
-});
-
-csv += values.join(",") + "\n";
-
-});
-
-downloadCSV(csv,"predictions.csv");
-
-}
-
-function exportMarketCSV(){
-
-let csv =
-"Date,HRC,CRC,WRIC,Billets,Rebars,Scrap\n";
-
-document.querySelectorAll("#marketTable tr")
-.forEach(row => {
-
-let values=[];
-
-row.querySelectorAll("td")
-.forEach(td => {
-
-values.push(td.innerText);
-
-});
-
-csv += values.join(",") + "\n";
-
-});
-
-downloadCSV(csv,"marketdata.csv");
-
-}
-
-function downloadCSV(data,file){
-
-let blob =
-new Blob([data],{type:"text/csv"});
-
-let link =
-document.createElement("a");
-
-link.href =
-URL.createObjectURL(blob);
-
-link.download =
-file;
-
-link.click();
-
-}
-
+ 
+let scores = JSON.parse(
+localStorage.getItem("scoresV3")
+|| "{}"
+);
+ 
+console.log(predictions);
+console.log(marketData);
+console.log(scores);
+ 
 </script>
-
+ 
 </body>
 </html>
