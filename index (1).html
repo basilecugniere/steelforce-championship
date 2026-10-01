@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SteelForce Market Championship</title>
+<style>
+:root{
+  --ink:#16222e; --muted:#5d6b78; --line:#d9dfe5; --bg:#eef1f4; --card:#fff;
+  --steel:#0b5cab; --steel-d:#083d75; --ok:#1e8e4e; --ko:#c0392b; --flat:#7a8794; --warn:#b7791f;
+  --r:12px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+.wrap{max-width:1200px;margin:0 auto;padding:20px 16px 60px}
+header{text-align:center;margin:10px 0 22px}
+h1{margin:0;color:var(--steel);font-size:clamp(1.4rem,4vw,2rem);letter-spacing:.5px}
+h2{margin:0 0 14px;font-size:1.25rem}
+h3{margin:0 0 10px;font-size:1.05rem}
+nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:22px}
+.btn{background:var(--steel);color:#fff;border:0;border-radius:8px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer;transition:background .15s}
+.btn:hover{background:var(--steel-d)}
+.btn:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #8ec1f5;outline-offset:2px}
+nav .btn{background:#fff;color:var(--steel);border:1px solid var(--line)}
+nav .btn:hover{background:#e3eefa}
+nav .btn.active{background:var(--steel);color:#fff;border-color:var(--steel)}
+.btn.green{background:var(--ok)}.btn.green:hover{background:#176f3d}
+.btn.ghost{background:transparent;color:var(--ko);padding:4px 10px;border:1px solid var(--line)}
+.btn.ghost:hover{background:#fdecea}
+.btn.big{display:block;margin:24px auto 0;padding:14px 38px}
+.card{background:var(--card);border-radius:var(--r);padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.08);margin-bottom:20px}
+.screen{display:none}.screen.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.field label{display:block;font-weight:600;font-size:.9rem;margin-bottom:5px}
+select,input{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.toolbar .field{min-width:200px}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{width:100%;border-collapse:collapse;min-width:640px}
+th{background:var(--steel);color:#fff;font-weight:600;white-space:nowrap}
+th,td{padding:9px 10px;text-align:center;border-bottom:1px solid var(--line);font-size:.92rem}
+tbody tr:nth-child(even){background:#f7f9fb}
+td.left,th.left{text-align:left}
+.empty{padding:26px;text-align:center;color:var(--muted)}
+.tag{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:700;font-size:.8rem;color:#fff}
+.tag.UP{background:var(--ok)}.tag.DOWN{background:var(--ko)}.tag.FLAT{background:var(--flat)}
+.conv{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:6px;background:#e3eefa;color:var(--steel-d);font-weight:700;font-size:.78rem}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+td small{display:block;color:var(--muted);font-size:.75rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:#e3eefa;color:var(--steel-d);border-radius:999px;padding:5px 12px;font-weight:600;font-size:.9rem}
+.chip button{border:0;background:transparent;color:var(--ko);cursor:pointer;font-size:.9rem;padding:0 2px}
+.inline{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.inline .field{flex:1 1 220px}
+.rules h3{margin-top:22px;color:var(--steel)}
+.rules h3:first-child{margin-top:0}
+.rules p,.rules li{max-width:80ch}
+.rules ul{padding-left:20px}
+.rules .table-wrap{max-width:640px;margin:10px 0}
+.rules table{min-width:420px}
+.res-ok{color:var(--ok);font-weight:700}.res-ko{color:var(--ko);font-weight:700}.res-wait{color:var(--warn);font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.stat{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);border-top:4px solid var(--steel)}
+.stat b{display:block;font-size:1.05rem;margin-bottom:8px}
+.stat dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:3px 12px;font-size:.9rem}
+.stat dt{color:var(--muted)}.stat dd{margin:0;font-weight:700;text-align:right}
+.podium{display:grid;gap:10px}
+.rank{display:grid;grid-template-columns:48px 1fr auto auto;gap:14px;align-items:center;background:#f7f9fb;border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+.rank:nth-child(1){background:#fff8e1;border-color:#f0d98a}
+.rank:nth-child(2){background:#f3f5f7}
+.rank:nth-child(3){background:#fbf0e6;border-color:#e6c9a8}
+.rank .pos{font-size:1.6rem;text-align:center}
+.rank .name{font-weight:700;font-size:1.1rem}
+.rank .meta{color:var(--muted);font-size:.85rem;text-align:right}
+.rank .pts{font-size:1.4rem;font-weight:800;color:var(--steel)}
+.notice{background:#eef5ff;border-radius:8px;padding:12px 16px;color:var(--muted);font-size:.9rem;margin-top:14px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 22px;border-radius:8px;opacity:0;pointer-events:none;transition:.25s;z-index:10}
+#toast.show{opacity:1;transform:translateX(-50%)}
+@media(max-width:600px){
+  .wrap{padding:12px 10px 50px}
+  .card{padding:16px}
+  nav .btn{flex:1 1 45%;padding:10px 8px}
+  .rank{grid-template-columns:36px 1fr auto;}
+  .rank .meta{grid-column:2 / 4;text-align:left}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header><h1>🏆 STEELFORCE MARKET CHAMPIONSHIP</h1></header>
+
+<nav id="nav">
+  <button class="btn" data-screen="predictions">Prévisions</button>
+  <button class="btn" data-screen="history">Historique</button>
+  <button class="btn" data-screen="market">Market Data</button>
+  <button class="btn" data-screen="results">Résultats</button>
+  <button class="btn" data-screen="leaderboard">Leaderboard</button>
+  <button class="btn" data-screen="rules">Explication</button>
+</nav>
+
+<!-- 1. PREVISIONS -->
+<section id="screen-predictions" class="screen">
+  <div class="card">
+    <h2>Nouvelle prévision</h2>
+    <div class="grid" id="predForm"></div>
+    <button class="btn big" id="savePredBtn">VALIDER LES PRÉVISIONS</button>
+  </div>
+  <div class="card">
+    <h2>👥 Traders</h2>
+    <div class="inline">
+      <div class="field"><label for="newTrader">Ajouter un trader</label><input type="text" id="newTrader" maxlength="30" placeholder="Prénom" autocomplete="off"></div>
+      <button class="btn" id="addTraderBtn">Ajouter</button>
+    </div>
+    <div class="chips" id="traderChips"></div>
+    <div class="notice">Un trader peut être supprimé uniquement s'il n'a aucune prévision enregistrée.</div>
+  </div>
+</section>
+
+<!-- 2. HISTORIQUE PREVISIONS -->
+<section id="screen-history" class="screen">
+  <div class="card">
+    <div class="toolbar">
+      <h2 style="margin:0">📋 Historique des prévisions</h2>
+      <button class="btn green" id="exportPredBtn">Exporter CSV</button>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>ID</th><th>Date</th><th>Trader</th><th>HRC</th><th>CRC</th><th>WRIC</th><th>Billets</th><th>Rebars</th><th>Scrap</th><th></th></tr></thead>
+      <tbody id="predTable"></tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 3 + 4. MARKET DATA -->
+<section id="screen-market" class="screen">
+  <div class="card">
+    <h2>📈 Market Data</h2>
+    <div class="grid" id="marketForm"></div>
+    <button class="btn big" id="saveMarketBtn">SAUVEGARDER LES PRIX</button>
+    <div class="notice">Une saisie sur une date déjà enregistrée remplace les prix de cette date.</div>
+  </div>
+  <div class="card">
+    <div class="toolbar">
+      <h2 style="margin:0">📊 Historique Market Data</h2>
+      <button class="btn green" id="exportMarketBtn">Exporter CSV</button>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Date</th><th>HRC</th><th>CRC</th><th>WRIC</th><th>Billets</th><th>Rebars</th><th>Scrap</th><th></th></tr></thead>
+      <tbody id="marketTable"></tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 6. RESULTATS -->
+<section id="screen-results" class="screen">
+  <div class="stats" id="statsCards"></div>
+  <div class="card">
+    <div class="toolbar">
+      <h2 style="margin:0">🎯 Résultats</h2>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+        <div class="field"><label for="filterTrader">Trader</label><select id="filterTrader"></select></div>
+        <button class="btn green" id="exportResultsBtn">Exporter CSV</button>
+      </div>
+    </div>
+    <div class="table-wrap"><table style="min-width:1150px">
+      <thead><tr><th>Date prévision</th><th>Trader</th><th>Produit</th><th>Prévision</th><th>Conviction</th><th>Date cible</th><th>Date retenue</th><th>Valeur initiale</th><th>Valeur finale</th><th>Variation</th><th>Résultat réel</th><th>Points</th></tr></thead>
+      <tbody id="resultsTable"></tbody>
+    </table></div>
+    <div class="notice">Valeur initiale : dernier prix connu à la date de la prévision (ou le jour même). Valeur finale : premier prix disponible à partir de la date de prévision + 30 jours. FLAT si la variation est comprise entre -3 et +3. Points : bonne prévision = + conviction (1, 2 ou 3), mauvaise prévision = − conviction.</div>
+  </div>
+</section>
+
+<!-- 5. LEADERBOARD -->
+<section id="screen-leaderboard" class="screen">
+  <div class="card">
+    <h2>🏆 Leaderboard</h2>
+    <div class="podium" id="podium"></div>
+    <div class="notice">Classement recalculé automatiquement (bonne prévision : + conviction, mauvaise : − conviction) : score, puis hit ratio, puis nombre de prévisions évaluées.</div>
+  </div>
+</section>
+
+<!-- 7. EXPLICATION -->
+<section id="screen-rules" class="screen">
+  <div class="card rules">
+    <h2>❓ Comment fonctionne le championnat</h2>
+
+    <h3>Le principe</h3>
+    <p>Pour chacun des 6 marchés (HRC, CRC, WRIC, Billets, Rebars, Scrap), vous prévoyez si le prix sera en hausse, stable ou en baisse dans environ 30 jours, et vous indiquez à quel point vous en êtes sûr. Chaque marché est noté séparément : une prévision complète compte donc jusqu'à 6 lignes de résultat.</p>
+
+    <h3>1. Choisir une direction</h3>
+    <ul>
+      <li><b>UP</b> : le prix a augmenté de plus de +3.</li>
+      <li><b>FLAT</b> : la variation reste comprise entre -3 et +3 (bornes incluses).</li>
+      <li><b>DOWN</b> : le prix a baissé de plus de 3 (variation inférieure à -3).</li>
+    </ul>
+    <p>La variation se calcule dans l'unité du prix saisi : valeur finale moins valeur initiale.</p>
+
+    <h3>2. Choisir une conviction</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Conviction</th><th>Niveau</th><th>Prévision juste</th><th>Prévision fausse</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Possible</td><td class="res-ok">+1</td><td class="res-ko">−1</td></tr>
+        <tr><td>2</td><td>Très probable</td><td class="res-ok">+2</td><td class="res-ko">−2</td></tr>
+        <tr><td>3</td><td>Certain</td><td class="res-ok">+3</td><td class="res-ko">−3</td></tr>
+      </tbody>
+    </table></div>
+    <p>Plus la conviction est haute, plus le gain et la perte sont élevés. Toute prévision qui ne correspond pas au résultat réel est fausse, y compris un FLAT quand le marché a bougé.</p>
+
+    <h3>3. Quelle valeur de marché est utilisée ?</h3>
+    <ul>
+      <li><b>Valeur initiale</b> : le dernier prix connu à la date de la prévision (ou le jour même).</li>
+      <li><b>Date cible</b> : date de la prévision + 30 jours.</li>
+      <li><b>Date retenue</b> : le premier Market Data disponible à la date cible ou après. C'est de cette date que vient la valeur finale.</li>
+    </ul>
+    <p>Exemple : prévision le 02/10/2026, date cible le 01/11/2026. Si le premier prix saisi après cette date est celui du 06/11/2026, c'est lui qui sert de valeur finale. L'écran Résultats indique l'écart (« +5 j après la cible »).</p>
+    <p>Tant qu'aucun prix n'existe à l'échéance, la prévision reste « En attente » : elle ne compte ni dans le score ni dans le hit ratio.</p>
+
+    <h3>4. Exemple chiffré</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Valeurs</th><th>Variation</th><th>Résultat</th><th>Prévision</th><th>Points</th></tr></thead>
+      <tbody>
+        <tr><td>505 → 512</td><td>+7</td><td>UP</td><td>UP, conviction 2</td><td class="res-ok">+2</td></tr>
+        <tr><td>505 → 507</td><td>+2</td><td>FLAT</td><td>UP, conviction 3</td><td class="res-ko">−3</td></tr>
+        <tr><td>505 → 500</td><td>−5</td><td>DOWN</td><td>FLAT, conviction 1</td><td class="res-ko">−1</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>5. Classement</h3>
+    <ul>
+      <li>Le <b>score total</b> est la somme des points de toutes les prévisions évaluées. Il peut être négatif.</li>
+      <li>Le <b>hit ratio</b> est le pourcentage de prévisions correctes, sans tenir compte de la conviction.</li>
+      <li>En cas d'égalité : meilleur hit ratio, puis plus grand nombre de prévisions évaluées.</li>
+      <li>Le leaderboard se recalcule automatiquement à chaque nouvelle prévision ou nouveau prix.</li>
+    </ul>
+
+    <h3>Bon à savoir</h3>
+    <ul>
+      <li>De nouveaux traders peuvent être ajoutés dans l'onglet Prévisions.</li>
+      <li>Les données sont enregistrées dans le navigateur utilisé. Pour les partager ou les sauvegarder, utilisez les boutons « Exporter CSV ».</li>
+      <li>Saisir un prix sur une date déjà enregistrée remplace les prix de cette date.</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============ CONFIG ============ */
+const PRODUCTS = [
+  {key:"hrc",     label:"HRC China FOB"},
+  {key:"crc",     label:"CRC CNY"},
+  {key:"wric",    label:"WRIC China FOB"},
+  {key:"billets", label:"Billets China FOB"},
+  {key:"rebars",  label:"Rebars TK"},
+  {key:"scrap",   label:"Scrap TK CFR"}
+];
+const SHORT = {hrc:"HRC",crc:"CRC",wric:"WRIC",billets:"Billets",rebars:"Rebars",scrap:"Scrap"};
+const DEFAULT_TRADERS = ["Basile","Olivier","Jean","David","Jennifer","Burcu","Diego","Patrick"];
+const CHOICES = ["UP","FLAT","DOWN"];
+const CONVICTIONS = [
+  {v:1, label:"1 · Possible"},
+  {v:2, label:"2 · Très probable"},
+  {v:3, label:"3 · Certain"}
+];
+function convOf(p, key){ const c = Number(p[key+"Conv"]); return c>=1 && c<=3 ? c : 1; }
+const TOLERANCE = 3;
+const HORIZON_DAYS = 30;
+const MEDALS = ["🥇","🥈","🥉"];
+const KEYS = {predictions:"predictions", marketData:"marketData", scores:"scores", traders:"traders"};
+
+/* ============ STORE ============ */
+const store = {
+  predictions: [],
+  marketData: [],
+  scores: {},
+  traders: [],
+  load(){
+    this.predictions = readJSON(KEYS.predictions, []);
+    this.marketData  = readJSON(KEYS.marketData, []);
+    if(!Array.isArray(this.predictions)) this.predictions = [];
+    if(!Array.isArray(this.marketData))  this.marketData = [];
+    this.sortMarket();
+    const saved = readJSON(KEYS.traders, null);
+    this.traders = Array.isArray(saved) && saved.length ? saved.filter(t=>typeof t === "string" && t.trim()) : DEFAULT_TRADERS.slice();
+    this.predictions.forEach(p=>{ if(p.trader && !this.traders.includes(p.trader)) this.traders.push(p.trader); });
+  },
+  sortMarket(){ this.marketData.sort((a,b)=>a.date.localeCompare(b.date)); },
+  persist(){
+    this.scores = Engine.computeScores(Engine.computeResults());
+    writeJSON(KEYS.predictions, this.predictions);
+    writeJSON(KEYS.marketData, this.marketData);
+    writeJSON(KEYS.scores, this.scores);
+    writeJSON(KEYS.traders, this.traders);
+  },
+  nextId(){ return this.predictions.reduce((m,p)=>Math.max(m,p.id||0),0)+1; }
+};
+
+function readJSON(key, fallback){
+  try{
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  }catch(e){ return fallback; }
+}
+function writeJSON(key, value){
+  try{ localStorage.setItem(key, JSON.stringify(value)); }
+  catch(e){ toast("Stockage local indisponible : données non sauvegardées"); }
+}
+
+/* ============ UTILS ============ */
+function todayISO(){
+  const d = new Date();
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function addDays(iso, n){
+  const [y,m,d] = iso.split("-").map(Number);
+  return new Date(Date.UTC(y,m-1,d+n)).toISOString().slice(0,10);
+}
+function fmtDate(iso){ const [y,m,d] = iso.split("-"); return d+"/"+m+"/"+y; }
+function round2(x){ return Math.round(x*100)/100; }
+function fmtNum(x){ return Number.isFinite(x) ? String(round2(x)) : "—"; }
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function tag(v){ return '<span class="tag '+esc(v)+'">'+esc(v)+'</span>'; }
+function $(id){ return document.getElementById(id); }
+let toastTimer;
+function toast(msg){
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove("show"), 2200);
+}
+
+/* ============ ENGINE (scoring) ============ */
+const Engine = {
+  classify(variation){
+    const v = round2(variation);
+    if(v > TOLERANCE) return "UP";
+    if(v < -TOLERANCE) return "DOWN";
+    return "FLAT";
+  },
+  initialPoint(date){
+    let found = null;
+    for(const m of store.marketData){ if(m.date <= date) found = m; else break; }
+    return found;
+  },
+  finalPoint(date){
+    const target = addDays(date, HORIZON_DAYS);
+    return store.marketData.find(m=>m.date >= target) || null;
+  },
+  computeResults(){
+    const rows = [];
+    const preds = store.predictions.slice().sort((a,b)=>a.date.localeCompare(b.date) || a.id-b.id);
+    for(const p of preds){
+      const ini = this.initialPoint(p.date);
+      const fin = this.finalPoint(p.date);
+      for(const prod of PRODUCTS){
+        const k = prod.key;
+        const row = {
+          id:p.id, date:p.date, trader:p.trader, key:k, product:prod.label,
+          prediction:p[k], conviction:convOf(p,k), initial:null, final:null, variation:null,
+          actual:null, correct:null, point:null, status:"pending",
+          targetDate:addDays(p.date, HORIZON_DAYS), retainedDate:fin?fin.date:null
+        };
+        const a = ini ? Number(ini[k]) : NaN;
+        const b = fin ? Number(fin[k]) : NaN;
+        if(Number.isFinite(a) && Number.isFinite(b)){
+          row.initial = a; row.final = b;
+          row.variation = round2(b-a);
+          row.actual = this.classify(row.variation);
+          row.correct = row.actual === row.prediction;
+          row.point = row.correct ? row.conviction : -row.conviction;
+          row.status = "done";
+        }
+        rows.push(row);
+      }
+    }
+    return rows;
+  },
+  computeScores(results){
+    const scores = {};
+    store.traders.forEach(t=>scores[t] = {predictions:0, correct:0, pending:0, hitRatio:0, score:0});
+    for(const r of results){
+      if(!scores[r.trader]) scores[r.trader] = {predictions:0, correct:0, pending:0, hitRatio:0, score:0};
+      const s = scores[r.trader];
+      if(r.status === "done"){ s.predictions++; if(r.correct) s.correct++; s.score += r.point; }
+      else s.pending++;
+    }
+    Object.values(scores).forEach(s=>{
+      s.hitRatio = s.predictions ? round2(s.correct / s.predictions * 100) : 0;
+    });
+    return scores;
+  },
+  ranking(){
+    return Object.entries(store.scores)
+      .map(([trader,s])=>({trader, ...s}))
+      .sort((a,b)=> b.score-a.score || b.hitRatio-a.hitRatio || b.predictions-a.predictions || a.trader.localeCompare(b.trader));
+  }
+};
+
+/* ============ CSV ============ */
+function csvCell(v){
+  const s = v === null || v === undefined ? "" : String(v);
+  return /[",;\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;
+}
+function downloadCSV(rows, filename){
+  const csv = "\uFEFF" + rows.map(r=>r.map(csvCell).join(",")).join("\n");
+  const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+}
+function exportPredictions(){
+  const head = ["ID","Date","Trader"];
+  PRODUCTS.forEach(pr=>head.push(SHORT[pr.key], SHORT[pr.key]+" Conviction"));
+  const rows = [head];
+  store.predictions.forEach(p=>{
+    const r = [p.id,p.date,p.trader];
+    PRODUCTS.forEach(pr=>r.push(p[pr.key], convOf(p,pr.key)));
+    rows.push(r);
+  });
+  downloadCSV(rows, "predictions.csv");
+}
+function exportMarket(){
+  const rows = [["Date","HRC","CRC","WRIC","Billets","Rebars","Scrap"]];
+  store.marketData.forEach(m=>rows.push([m.date,m.hrc,m.crc,m.wric,m.billets,m.rebars,m.scrap]));
+  downloadCSV(rows, "marketdata.csv");
+}
+function exportResults(){
+  const rows = [["Date prevision","Trader","Produit","Prevision","Conviction","Date cible","Date retenue","Valeur initiale","Valeur finale","Variation","Resultat reel","Points"]];
+  Engine.computeResults().forEach(r=>rows.push([
+    r.date, r.trader, r.product, r.prediction, r.conviction,
+    r.targetDate, r.retainedDate ?? "",
+    r.initial ?? "", r.final ?? "", r.variation ?? "",
+    r.actual ?? "En attente", r.point ?? ""
+  ]));
+  downloadCSV(rows, "resultats.csv");
+}
+
+/* ============ UI : formulaires ============ */
+function buildForms(){
+  const opts = arr=>arr.map(v=>'<option>'+esc(v)+'</option>').join("");
+  let html = '<div class="field"><label for="trader">Trader</label><select id="trader"></select></div>'
+           + '<div class="field"><label for="predDate">Date de la prévision</label><input type="date" id="predDate"></div>';
+  PRODUCTS.forEach(p=>{
+    html += '<div class="field"><label for="p_'+p.key+'">'+esc(p.label)+'</label><div class="pair">'
+          + '<select id="p_'+p.key+'" aria-label="Direction '+esc(p.label)+'">'+opts(CHOICES)+'</select>'
+          + '<select id="c_'+p.key+'" aria-label="Conviction '+esc(p.label)+'">'
+          + CONVICTIONS.map(c=>'<option value="'+c.v+'">'+esc(c.label)+'</option>').join("")
+          + '</select></div></div>';
+  });
+  $("predForm").innerHTML = html;
+  $("predDate").value = todayISO();
+
+  let mh = '<div class="field"><label for="marketDate">Date</label><input type="date" id="marketDate"></div>';
+  PRODUCTS.forEach(p=>{
+    mh += '<div class="field"><label for="m_'+p.key+'">'+esc(p.label)+'</label><input type="number" step="any" inputmode="decimal" id="m_'+p.key+'"></div>';
+  });
+  $("marketForm").innerHTML = mh;
+  $("marketDate").value = todayISO();
+
+  renderTraders();
+}
+
+/* ============ UI : traders ============ */
+function renderTraders(){
+  const opts = store.traders.map(t=>'<option>'+esc(t)+'</option>').join("");
+  const sel = $("trader"), flt = $("filterTrader");
+  const selVal = sel.value, fltVal = flt.value;
+  sel.innerHTML = opts;
+  flt.innerHTML = '<option value="">Tous</option>' + opts;
+  if(store.traders.includes(selVal)) sel.value = selVal;
+  if(store.traders.includes(fltVal)) flt.value = fltVal;
+  $("traderChips").innerHTML = store.traders.map(t=>{
+    const used = store.predictions.some(p=>p.trader === t);
+    return '<span class="chip">'+esc(t)
+      + (used ? '' : '<button data-del-trader="'+esc(t)+'" aria-label="Supprimer '+esc(t)+'">✕</button>')
+      + '</span>';
+  }).join("");
+}
+function addTrader(){
+  const name = $("newTrader").value.replace(/\s+/g," ").trim();
+  if(!name){ toast("Saisissez un prénom"); return; }
+  if(store.traders.some(t=>t.toLowerCase() === name.toLowerCase())){ toast("Ce trader existe déjà"); return; }
+  store.traders.push(name);
+  store.persist();
+  $("newTrader").value = "";
+  renderAll();
+  $("trader").value = name;
+  toast("Trader ajouté : "+name);
+}
+function removeTrader(name){
+  if(store.predictions.some(p=>p.trader === name)){ toast("Ce trader a des prévisions"); return; }
+  if(!confirm("Supprimer le trader "+name+" ?")) return;
+  store.traders = store.traders.filter(t=>t !== name);
+  store.persist(); renderAll();
+}
+
+/* ============ UI : actions ============ */
+function savePrediction(){
+  const date = $("predDate").value;
+  if(!date){ toast("Choisissez une date"); return; }
+  const p = {id:store.nextId(), date, trader:$("trader").value};
+  PRODUCTS.forEach(pr=>{
+    p[pr.key] = $("p_"+pr.key).value;
+    p[pr.key+"Conv"] = Number($("c_"+pr.key).value);
+  });
+  store.predictions.push(p);
+  store.persist();
+  renderAll();
+  toast("Prévisions enregistrées");
+}
+function saveMarket(){
+  const date = $("marketDate").value;
+  if(!date){ toast("Choisissez une date"); return; }
+  const m = {date};
+  for(const pr of PRODUCTS){
+    const raw = $("m_"+pr.key).value;
+    if(raw === "" || !Number.isFinite(Number(raw))){ toast("Renseignez le prix : "+pr.label); return; }
+    m[pr.key] = Number(raw);
+  }
+  const i = store.marketData.findIndex(x=>x.date === date);
+  if(i >= 0) store.marketData[i] = m; else store.marketData.push(m);
+  store.sortMarket();
+  store.persist();
+  PRODUCTS.forEach(pr=>$("m_"+pr.key).value = "");
+  renderAll();
+  toast(i >= 0 ? "Prix de cette date mis à jour" : "Prix enregistrés");
+}
+function deletePrediction(id){
+  if(!confirm("Supprimer cette prévision ?")) return;
+  store.predictions = store.predictions.filter(p=>p.id !== id);
+  store.persist(); renderAll();
+}
+function deleteMarket(date){
+  if(!confirm("Supprimer les prix du "+fmtDate(date)+" ?")) return;
+  store.marketData = store.marketData.filter(m=>m.date !== date);
+  store.persist(); renderAll();
+}
+
+/* ============ UI : rendu ============ */
+function renderPredictions(){
+  const rows = store.predictions.slice().sort((a,b)=>b.date.localeCompare(a.date) || b.id-a.id);
+  $("predTable").innerHTML = rows.length ? rows.map(p=>
+    '<tr><td>'+p.id+'</td><td>'+fmtDate(p.date)+'</td><td class="left"><b>'+esc(p.trader)+'</b></td>'
+    + PRODUCTS.map(pr=>'<td>'+tag(p[pr.key])+'<span class="conv" title="Conviction">'+convOf(p,pr.key)+'</span></td>').join("")
+    + '<td><button class="btn ghost" data-del-pred="'+p.id+'" aria-label="Supprimer la prévision '+p.id+'">✕</button></td></tr>'
+  ).join("") : '<tr><td colspan="10" class="empty">Aucune prévision. Saisissez-en une dans l’onglet Prévisions.</td></tr>';
+}
+function renderMarket(){
+  const rows = store.marketData.slice().reverse();
+  $("marketTable").innerHTML = rows.length ? rows.map(m=>
+    '<tr><td>'+fmtDate(m.date)+'</td>'
+    + PRODUCTS.map(pr=>'<td>'+esc(fmtNum(m[pr.key]))+'</td>').join("")
+    + '<td><button class="btn ghost" data-del-market="'+esc(m.date)+'" aria-label="Supprimer les prix du '+fmtDate(m.date)+'">✕</button></td></tr>'
+  ).join("") : '<tr><td colspan="8" class="empty">Aucun prix. Saisissez les premiers prix ci-dessus.</td></tr>';
+}
+function renderResults(){
+  const filter = $("filterTrader").value;
+  const all = Engine.computeResults();
+  const rows = (filter ? all.filter(r=>r.trader === filter) : all).slice().reverse();
+
+  $("resultsTable").innerHTML = rows.length ? rows.map(r=>{
+    let outcome, point;
+    if(r.status === "done"){
+      outcome = tag(r.actual);
+      point = r.point > 0 ? '<span class="res-ok">+'+r.point+'</span>' : '<span class="res-ko">−'+Math.abs(r.point)+'</span>';
+    }else{
+      outcome = '<span class="res-wait">En attente</span>';
+      point = '—';
+    }
+    const sign = r.variation > 0 ? "+" : "";
+    let retained = '<span class="res-wait">—</span><small>Pas encore de prix</small>';
+    if(r.retainedDate){
+      const gap = Math.round((Date.parse(r.retainedDate) - Date.parse(r.targetDate)) / 86400000);
+      retained = '<b>'+fmtDate(r.retainedDate)+'</b><small>'+(gap === 0 ? "Jour exact" : "+"+gap+" j après la cible")+'</small>';
+    }
+    return '<tr><td>'+fmtDate(r.date)+'</td><td class="left"><b>'+esc(r.trader)+'</b></td><td class="left">'+esc(r.product)+'</td>'
+      + '<td>'+tag(r.prediction)+'</td><td><span class="conv">'+r.conviction+'</span></td>'
+      + '<td>'+fmtDate(r.targetDate)+'</td><td>'+retained+'</td><td>'+esc(fmtNum(r.initial))+'</td><td>'+esc(fmtNum(r.final))+'</td>'
+      + '<td>'+(r.variation === null ? "—" : sign+fmtNum(r.variation))+'</td><td>'+outcome+'</td><td>'+point+'</td></tr>';
+  }).join("") : '<tr><td colspan="12" class="empty">Aucun résultat à afficher.</td></tr>';
+
+  const list = filter ? [filter] : Engine.ranking().map(r=>r.trader);
+  $("statsCards").innerHTML = list.map(t=>{
+    const s = store.scores[t] || {predictions:0,correct:0,pending:0,hitRatio:0,score:0};
+    return '<div class="stat"><b>'+esc(t)+'</b><dl>'
+      + '<dt>Prévisions évaluées</dt><dd>'+s.predictions+'</dd>'
+      + '<dt>Correctes</dt><dd>'+s.correct+'</dd>'
+      + '<dt>Hit ratio</dt><dd>'+fmtNum(s.hitRatio)+' %</dd>'
+      + '<dt>Score total</dt><dd>'+s.score+'</dd>'
+      + '<dt>En attente</dt><dd>'+s.pending+'</dd></dl></div>';
+  }).join("");
+}
+function renderLeaderboard(){
+  const rank = Engine.ranking();
+  $("podium").innerHTML = rank.map((r,i)=>
+    '<div class="rank"><div class="pos">'+(MEDALS[i] || (i+1))+'</div>'
+    + '<div class="name">'+esc(r.trader)+'</div>'
+    + '<div class="meta">'+r.correct+'/'+r.predictions+' correctes · '+fmtNum(r.hitRatio)+' % · '+r.pending+' en attente</div>'
+    + '<div class="pts">'+r.score+' pt'+(Math.abs(r.score) > 1 ? "s" : "")+'</div></div>'
+  ).join("");
+}
+function renderAll(){
+  store.scores = Engine.computeScores(Engine.computeResults());
+  renderTraders(); renderPredictions(); renderMarket(); renderResults(); renderLeaderboard();
+}
+
+/* ============ NAVIGATION ============ */
+function show(name){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("active", s.id === "screen-"+name));
+  document.querySelectorAll("#nav .btn").forEach(b=>b.classList.toggle("active", b.dataset.screen === name));
+  try{ sessionStorage.setItem("screen", name); }catch(e){}
+}
+
+/* ============ INIT ============ */
+function init(){
+  store.load();
+  buildForms();
+  renderAll();
+  store.persist();
+
+  $("nav").addEventListener("click", e=>{
+    const b = e.target.closest("button[data-screen]"); if(b) show(b.dataset.screen);
+  });
+  $("savePredBtn").addEventListener("click", savePrediction);
+  $("saveMarketBtn").addEventListener("click", saveMarket);
+  $("exportPredBtn").addEventListener("click", exportPredictions);
+  $("exportMarketBtn").addEventListener("click", exportMarket);
+  $("exportResultsBtn").addEventListener("click", exportResults);
+  $("filterTrader").addEventListener("change", renderResults);
+  $("addTraderBtn").addEventListener("click", addTrader);
+  $("newTrader").addEventListener("keydown", e=>{ if(e.key === "Enter") addTrader(); });
+  $("traderChips").addEventListener("click", e=>{
+    const b = e.target.closest("[data-del-trader]"); if(b) removeTrader(b.dataset.delTrader);
+  });
+  $("predTable").addEventListener("click", e=>{
+    const b = e.target.closest("[data-del-pred]"); if(b) deletePrediction(Number(b.dataset.delPred));
+  });
+  $("marketTable").addEventListener("click", e=>{
+    const b = e.target.closest("[data-del-market]"); if(b) deleteMarket(b.dataset.delMarket);
+  });
+
+  let start = "predictions";
+  try{ start = sessionStorage.getItem("screen") || start; }catch(e){}
+  show(start);
+}
+init();
+
+})();
+</script>
+</body>
+</html>
