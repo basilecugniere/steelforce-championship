@@ -94,10 +94,6 @@ margin-left:250px;
 document.getElementById('predictionsTable').innerHTML +=
 '<tr>' +
 
-  localStorage.setItem(
-'predictionsTable',
-document.getElementById('predictionsTable').innerHTML
-);
 '<td>' + new Date().toLocaleDateString() + '</td>' +
 '<td>' + document.getElementById('trader').value + '</td>' +
 '<td>' + document.getElementById('hrc').value + '</td>' +
@@ -107,6 +103,10 @@ document.getElementById('predictionsTable').innerHTML
 '<td>' + document.getElementById('rebars').value + '</td>' +
 '<td>' + document.getElementById('scrap').value + '</td>' +
 '</tr>';
+    localStorage.setItem(
+'predictionsTable',
+document.getElementById('predictionsTable').innerHTML
+);
 '<h2>Prévisions enregistrées</h2>' +
 '<p><b>Trader :</b> ' + document.getElementById('trader').value + '</p>' +
 '<p><b>HRC :</b> ' + document.getElementById('hrc').value + '</p>' +
@@ -142,3 +142,8 @@ VALIDER
  
 </tbody>
 </table>
+  
+  <script>
+document.getElementById('predictionsTable').innerHTML =
+localStorage.getItem('predictionsTable') || '';
+</script>
