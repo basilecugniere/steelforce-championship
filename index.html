@@ -1,55 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <style>
+<title>SteelForce Championship</title>
+ 
+<style>
 body{
-font-family: Arial, sans-serif;
-max-width:800px;
+font-family:Arial,sans-serif;
+max-width:1200px;
 margin:auto;
 padding:20px;
+background:#f4f6f8;
 }
  
 h1{
+text-align:center;
 color:#0b5cab;
 }
  
-select{
-width:200px;
-padding:5px;
-margin-bottom:15px;
+.menu{
+text-align:center;
+margin-bottom:30px;
 }
  
-button{
+.menu button{
 background:#0b5cab;
 color:white;
 border:none;
 padding:10px 20px;
+margin:5px;
 cursor:pointer;
-margin-right:10px;
+border-radius:5px;
 }
-
+ 
+.section{
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.15);
+}
+ 
+label{
+display:block;
+margin-top:15px;
+font-weight:bold;
+}
+ 
+select,input{
+width:250px;
+padding:8px;
+margin-top:5px;
+}
+ 
+.validate-btn{
+display:block;
+margin:30px auto;
+background:#0b5cab;
+color:white;
+border:none;
+padding:15px 30px;
+border-radius:6px;
+cursor:pointer;
+}
+ 
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+ 
+th{
+background:#0b5cab;
+color:white;
+}
+ 
+th,td{
+border:1px solid #ddd;
+padding:8px;
+text-align:center;
+}
 </style>
-<title>SteelForce Market Championship</title>
+ 
 </head>
+ 
 <body>
+ 
 <h1>🏆 STEELFORCE MARKET CHAMPIONSHIP</h1>
-
-  <button onclick="showPredictions()">Prévisions</button>
  
-<button onclick="showHistory()">
-Historique
-</button>
-  <button onclick="showLeaderboard()">
-Leaderboard
-</button>
-  <div id="predictionSection">
-
-    <button onclick="showMarketData()">
-Market Data
-</button>
+<div class="menu">
+<button onclick="showPredictions()">Prévisions</button>
+<button onclick="showHistory()">Historique</button>
+<button onclick="showLeaderboard()">Leaderboard</button>
+<button onclick="showMarketData()">Market Data</button>
+</div>
  
-<p>Trader</p>
+<div id="predictionSection" class="section">
  
+<label>Trader</label>
 <select id="trader">
 <option>Basile</option>
 <option>Olivier</option>
@@ -61,96 +107,64 @@ Market Data
 <option>Patrick</option>
 </select>
  
-<h3>HRC China FOB</h3>
+<label>HRC China FOB</label>
 <select id="hrc">
 <option>UP</option>
 <option>FLAT</option>
 <option>DOWN</option>
 </select>
  
-<h3>CRC CNY</h3>
+<label>CRC CNY</label>
 <select id="crc">
 <option>UP</option>
 <option>FLAT</option>
 <option>DOWN</option>
 </select>
  
-<h3>WRIC China FOB</h3>
+<label>WRIC China FOB</label>
 <select id="wric">
 <option>UP</option>
 <option>FLAT</option>
 <option>DOWN</option>
 </select>
-
-  <h3>Billets China FOB</h3>
+ 
+<label>Billets China FOB</label>
 <select id="billets">
 <option>UP</option>
 <option>FLAT</option>
 <option>DOWN</option>
 </select>
  
-<h3>Rebars TK</h3>
+<label>Rebars TK</label>
 <select id="rebars">
 <option>UP</option>
 <option>FLAT</option>
 <option>DOWN</option>
 </select>
  
-<h3>Scrap TK CFR</h3>
+<label>Scrap TK CFR</label>
 <select id="scrap">
 <option>UP</option>
 <option>FLAT</option>
 <option>DOWN</option>
 </select>
-  
-<br><br>
  
-<button style="margin-left:250px;" onclick="
-document.getElementById('predictionsTable').innerHTML +=
-'<tr>' +
-
-'<td>' + new Date().toLocaleDateString() + '</td>' +
-'<td>' + document.getElementById('trader').value + '</td>' +
-'<td>' + document.getElementById('hrc').value + '</td>' +
-'<td>' + document.getElementById('crc').value + '</td>' +
-'<td>' + document.getElementById('wric').value + '</td>' +
-'<td>' + document.getElementById('billets').value + '</td>' +
-'<td>' + document.getElementById('rebars').value + '</td>' +
-'<td>' + document.getElementById('scrap').value + '</td>' +
-'</tr>';
-    localStorage.setItem(
-'predictionsTable',
-document.getElementById('predictionsTable').innerHTML
-);
-'<h2>Prévisions enregistrées</h2>' +
-'<p><b>Trader :</b> ' + document.getElementById('trader').value + '</p>' +
-'<p><b>HRC :</b> ' + document.getElementById('hrc').value + '</p>' +
-'<p><b>CRC :</b> ' + document.getElementById('crc').value + '</p>' +
-'<p><b>WRIC :</b> ' + document.getElementById('wric').value + '</p>' +
-'<p><b>Billets :</b> ' + document.getElementById('billets').value + '</p>' +
-'<p><b>Rebars :</b> ' + document.getElementById('rebars').value + '</p>' +
-'<p><b>Scrap :</b> ' + document.getElementById('scrap').value + '</p>';
-">
+<button
+class="validate-btn"
+onclick="savePrediction()">
 VALIDER
 </button>
  
-<div id="result"></div>
 </div>
  
-<div id="historySection" style="display:none;">
-  
- <div id="leaderboardSection" style="display:none;">
+<div
+id="historySection"
+class="section"
+style="display:none;">
  
-<h2>🏆 Leaderboard</h2>
+<h2>📋 Historique des prévisions</h2>
  
-<p>Leaderboard en cours de construction...</p>
- 
-</div>
-<hr>
- 
-<h2>Historique des prévisions</h2>
-  
-<table border="1" cellpadding="5">
+<table>
 <thead>
 <tr>
 <th>Date</th>
@@ -165,60 +179,114 @@ VALIDER
 </thead>
  
 <tbody id="predictionsTable">
- 
 </tbody>
+ 
 </table>
+ 
 </div>
-
-  <div id="marketDataSection" style="display:none;">
+ 
+<div
+id="leaderboardSection"
+class="section"
+style="display:none;">
+ 
+<h2>🏆 Leaderboard</h2>
+ 
+<p>
+Version à venir
+</p>
+ 
+</div>
+ 
+<div
+id="marketDataSection"
+class="section"
+style="display:none;">
  
 <h2>📈 Market Data</h2>
  
-<p>Date</p>
-<input type="date" id="marketDate">
+<label>Date</label>
+<input type="date">
  
-<p>HRC China FOB</p>
-<input type="number" id="marketHRC">
+<label>HRC China FOB</label>
+<input type="number">
  
-<p>CRC CNY</p>
-<input type="number" id="marketCRC">
+<label>CRC CNY</label>
+<input type="number">
  
-<p>WRIC China FOB</p>
-<input type="number" id="marketWRIC">
+<label>WRIC China FOB</label>
+<input type="number">
  
-<p>Billets China FOB</p>
-<input type="number" id="marketBillets">
+<label>Billets China FOB</label>
+<input type="number">
  
-<p>Rebars TK</p>
-<input type="number" id="marketRebars">
+<label>Rebars TK</label>
+<input type="number">
  
-<p>Scrap TK CFR</p>
-<input type="number" id="marketScrap">
+<label>Scrap TK CFR</label>
+<input type="number">
  
-<br><br>
- 
-<button>Sauvegarder les prix</button>
+<button class="validate-btn">
+Sauvegarder les prix
+</button>
  
 </div>
-  
+ 
 <script>
  
-document.getElementById('predictionsTable').innerHTML =
-localStorage.getItem('predictionsTable') || '';
+document.getElementById("predictionsTable").innerHTML =
+localStorage.getItem("predictionsTable") || "";
  
 function showPredictions(){
-document.getElementById('predictionSection').style.display = 'block';
-document.getElementById('historySection').style.display = 'none';
+hideAll();
+document.getElementById("predictionSection").style.display="block";
 }
  
 function showHistory(){
-document.getElementById('predictionSection').style.display = 'none';
-document.getElementById('historySection').style.display = 'block';
+hideAll();
+document.getElementById("historySection").style.display="block";
 }
+ 
 function showLeaderboard(){
-document.getElementById('predictionSection').style.display = 'none';
-document.getElementById('historySection').style.display = 'none';
-document.getElementById('leaderboardSection').style.display = 'block';
+hideAll();
+document.getElementById("leaderboardSection").style.display="block";
+}
+ 
+function showMarketData(){
+hideAll();
+document.getElementById("marketDataSection").style.display="block";
+}
+ 
+function hideAll(){
+document.getElementById("predictionSection").style.display="none";
+document.getElementById("historySection").style.display="none";
+document.getElementById("leaderboardSection").style.display="none";
+document.getElementById("marketDataSection").style.display="none";
+}
+ 
+function savePrediction(){
+ 
+document.getElementById('predictionsTable').innerHTML +=
+'<tr>' +
+'<td>' + new Date().toLocaleDateString() + '</td>' +
+'<td>' + document.getElementById('trader').value + '</td>' +
+'<td>' + document.getElementById('hrc').value + '</td>' +
+'<td>' + document.getElementById('crc').value + '</td>' +
+'<td>' + document.getElementById('wric').value + '</td>' +
+'<td>' + document.getElementById('billets').value + '</td>' +
+'<td>' + document.getElementById('rebars').value + '</td>' +
+'<td>' + document.getElementById('scrap').value + '</td>' +
+'</tr>';
+ 
+localStorage.setItem(
+'predictionsTable',
+document.getElementById('predictionsTable').innerHTML
+);
+ 
+alert("Prévisions enregistrées");
 }
  
 </script>
+ 
+</body>
+</html>
