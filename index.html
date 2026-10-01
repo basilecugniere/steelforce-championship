@@ -32,6 +32,13 @@ margin-left:250px;
 </head>
 <body>
 <h1>🏆 STEELFORCE MARKET CHAMPIONSHIP</h1>
+
+  <button onclick="showPredictions()">Prévisions</button>
+ 
+<button onclick="showHistory()">
+Historique
+</button>
+  <div id="predictionSection">
  
 <p>Trader</p>
  
@@ -123,7 +130,10 @@ VALIDER
   <hr>
  
 <h2>Historique des prévisions</h2>
+ </div>
  
+<div id="historySection" style="display:none;">
+  
 <table border="1" cellpadding="5">
 <thead>
 <tr>
@@ -142,8 +152,21 @@ VALIDER
  
 </tbody>
 </table>
+</div>
   
-  <script>
+<script>
+ 
 document.getElementById('predictionsTable').innerHTML =
 localStorage.getItem('predictionsTable') || '';
+ 
+function showPredictions(){
+document.getElementById('predictionSection').style.display = 'block';
+document.getElementById('historySection').style.display = 'none';
+}
+ 
+function showHistory(){
+document.getElementById('predictionSection').style.display = 'none';
+document.getElementById('historySection').style.display = 'block';
+}
+ 
 </script>
