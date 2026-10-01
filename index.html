@@ -8,7 +8,7 @@
  
 <p>Trader</p>
  
-<select>
+<select id="trader">
 <option>Basile</option>
 <option>Olivier</option>
 <option>Jean</option>
@@ -20,14 +20,14 @@
 </select>
  
 <h3>HRC China FOB</h3>
-<select>
+<select id="hrc">
 <option>UP</option>
 <option>FLAT</option>
 <option>DOWN</option>
 </select>
  
 <h3>CRC CNY</h3>
-<select>
+<select id="crc">
 <option>UP</option>
 <option>FLAT</option>
 <option>DOWN</option>
@@ -61,6 +61,11 @@
 <option>DOWN</option>
 </select>
   
-<button onclick="alert('Prévisions enregistrées')">
+<button onclick="
+alert(
+'Trader : ' + document.getElementById('trader').value +
+'\nHRC : ' + document.getElementById('hrc').value +
+'\nCRC : ' + document.getElementById('crc').value
+)">
 VALIDER
 </button>
