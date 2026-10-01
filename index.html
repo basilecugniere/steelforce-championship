@@ -93,6 +93,7 @@ margin-left:250px;
 <button style="margin-left:250px;" onclick="
 document.getElementById('predictionsTable').innerHTML +=
 '<tr>' +
+'<td>' + new Date().toLocaleDateString() + '</td>' +
 '<td>' + document.getElementById('trader').value + '</td>' +
 '<td>' + document.getElementById('hrc').value + '</td>' +
 '<td>' + document.getElementById('crc').value + '</td>' +
@@ -121,6 +122,7 @@ VALIDER
 <table border="1" cellpadding="5">
 <thead>
 <tr>
+<th>Date</th>
 <th>Trader</th>
 <th>HRC</th>
 <th>CRC</th>
