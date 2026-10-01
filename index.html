@@ -93,6 +93,11 @@ margin-left:250px;
 <button style="margin-left:250px;" onclick="
 document.getElementById('predictionsTable').innerHTML +=
 '<tr>' +
+
+  localStorage.setItem(
+'predictionsTable',
+document.getElementById('predictionsTable').innerHTML
+);
 '<td>' + new Date().toLocaleDateString() + '</td>' +
 '<td>' + document.getElementById('trader').value + '</td>' +
 '<td>' + document.getElementById('hrc').value + '</td>' +
