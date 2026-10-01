@@ -1,1 +1,94 @@
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+<title>SteelForce Championship V3</title>
+ 
+<style>
+ 
+body{
+font-family:Arial,sans-serif;
+max-width:1200px;
+margin:auto;
+padding:20px;
+background:#f4f6f8;
+}
+ 
+h1{
+text-align:center;
+color:#0b5cab;
+}
+ 
+.menu{
+text-align:center;
+margin-bottom:25px;
+}
+ 
+.menu button{
+background:#0b5cab;
+color:white;
+border:none;
+padding:10px 20px;
+margin:5px;
+border-radius:5px;
+cursor:pointer;
+}
+ 
+.section{
+background:white;
+padding:20px;
+border-radius:10px;
+}
+ 
+</style>
+ 
+</head>
+ 
+<body>
+ 
+<h1>🏆 STEELFORCE CHAMPIONSHIP V3</h1>
+ 
+<div class="menu">
+<button>Prévisions</button>
+<button>Market Data</button>
+<button>Résultats</button>
+<button>Leaderboard</button>
+</div>
+ 
+<div class="section">
+ 
+<h2>Version V3</h2>
+ 
+<p>
+Moteur JSON en cours de construction.
+</p>
+ 
+</div>
+ 
+<script>
+ 
+let predictions = JSON.parse(
+localStorage.getItem("predictionsV3")
+|| "[]"
+);
+ 
+let marketData = JSON.parse(
+localStorage.getItem("marketDataV3")
+|| "[]"
+);
+ 
+let scores = JSON.parse(
+localStorage.getItem("scoresV3")
+|| "{}"
+);
+ 
+console.log(predictions);
+console.log(marketData);
+console.log(scores);
+ 
+</script>
+ 
+</body>
+</html>
